@@ -1,0 +1,14 @@
+{
+  "name": "drupal/limograde_company",
+  "type": "drupal-module",
+  "description": "Custom functionality for company content types.",
+  "keywords": ["Drupal"],
+  "license": "GPL-2.0+",
+  "homepage": "https://www.drupal.org/project/limograde_company",
+  "minimum-stability": "dev",
+  "support": {
+    "issues": "https://www.drupal.org/project/issues/limograde_company",
+    "source": "http://cgit.drupalcode.org/limograde_company"
+  },
+  "require": { }
+}

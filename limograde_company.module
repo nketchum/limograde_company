@@ -1,0 +1,18 @@
+<?php
+
+/**
+ * Implements hook_preprocess_input().
+ */
+function limograde_company_preprocess_input(&$variables) {
+  if (array_key_exists('#id', $variables['element'])) {
+    if ($variables['element']['#id'] === 'edit-field-location-0-address-address-line1') {
+      $variables['element']['#attributes']['placeholder'] = t('1234 Main St');
+    }
+    if ($variables['element']['#id'] === 'edit-field-location-0-address-locality') {
+      $variables['element']['#attributes']['placeholder'] = t('Jonesville');
+    }
+    if ($variables['element']['#id'] === 'edit-field-location-0-address-postal-code') {
+      $variables['element']['#attributes']['placeholder'] = t('10001');
+    }
+  }
+}

@@ -1,0 +1,7 @@
+name: LimoGrade company
+type: module
+description: Provides custom functionality for company content.
+core: 8.x
+package: Custom
+dependencies:
+  - address
