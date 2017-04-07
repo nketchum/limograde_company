@@ -5,14 +5,36 @@
  */
 function limograde_company_preprocess_input(&$variables) {
   if (array_key_exists('#id', $variables['element'])) {
+    // Add address line 1 placeholder text.
     if ($variables['element']['#id'] === 'edit-field-location-0-address-address-line1') {
       $variables['element']['#attributes']['placeholder'] = t('1234 Main St');
     }
+    // Add address locality placeholder text.
     if ($variables['element']['#id'] === 'edit-field-location-0-address-locality') {
       $variables['element']['#attributes']['placeholder'] = t('Jonesville');
     }
+    // Add address postal code placeholder text.
     if ($variables['element']['#id'] === 'edit-field-location-0-address-postal-code') {
       $variables['element']['#attributes']['placeholder'] = t('10001');
     }
+  }
+}
+
+function limograde_company_field_widget_form_alter(&$element, \Drupal\Core\Form\FormStateInterface $form_state, $context) {
+  // Make address field not collapsible.
+  if (array_key_exists('address', $element)) {
+    $element['#collapsible'] = 0;
+    $element['#type'] = 'fieldset';
+  }
+}
+
+function limograde_company_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
+  // Don't ever show revision elements.
+  if (array_key_exists('revision_information', $form)) {
+    $form['revision_information']['#access'] = FALSE;
+  }
+  // Make photos multifiles not collapsible.
+  if (array_key_exists('field_photos', $form)) {
+    $form['field_photos']['widget']['#type'] = 'fieldset';
   }
 }
