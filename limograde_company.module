@@ -1,5 +1,9 @@
 <?php
 
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Render\Element;
+use Drupal\Core\Template\Attribute;
+
 /**
  * Implements hook_preprocess_input().
  */
@@ -20,7 +24,10 @@ function limograde_company_preprocess_input(&$variables) {
   }
 }
 
-function limograde_company_field_widget_form_alter(&$element, \Drupal\Core\Form\FormStateInterface $form_state, $context) {
+/**
+ * Implements hook_WIDGET_form_alter().
+ */
+function limograde_company_field_widget_form_alter(&$element, FormStateInterface $form_state, $context) {
   // Make address field not collapsible.
   if (array_key_exists('address', $element)) {
     $element['#collapsible'] = 0;
@@ -28,7 +35,10 @@ function limograde_company_field_widget_form_alter(&$element, \Drupal\Core\Form\
   }
 }
 
-function limograde_company_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
+/**
+ * Implements hook_form_alter().
+ */
+function limograde_company_form_alter(&$form, FormStateInterface $form_state, $form_id) {
   // Don't ever show revision elements.
   if (array_key_exists('revision_information', $form)) {
     $form['revision_information']['#access'] = FALSE;
@@ -36,5 +46,25 @@ function limograde_company_form_alter(&$form, \Drupal\Core\Form\FormStateInterfa
   // Make photos multifiles not collapsible.
   if (array_key_exists('field_photos', $form)) {
     $form['field_photos']['widget']['#type'] = 'fieldset';
+  }
+}
+
+/**
+ * Implements hook_preprocess_node().
+ */
+function limograde_company_preprocess_node(&$variables) {
+  $node = $variables['node'];
+
+  foreach (Element::children($variables['elements']) as $key) {
+    if (\Drupal::currentUser()->hasPermission('edit any company content')) {
+      $path = \Drupal::service('path.current')->getPath();
+      $alias = \Drupal::service('path.alias_manager')->getAliasByPath($path);
+
+      $variables['edit'] = array(
+        '#type' => 'markup',
+        '#markup' => '<a href="/node/'. $node->id() . '/edit?destination='. $alias .'" class="btn btn-sm btn-default">Edit</a>',
+        '#weight' => -10,
+      );
+    }
   }
 }
