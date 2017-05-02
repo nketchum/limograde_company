@@ -62,7 +62,7 @@ function limograde_company_preprocess_node(&$variables) {
 
       $variables['edit'] = array(
         '#type' => 'markup',
-        '#markup' => '<a href="/node/'. $node->id() . '/edit?destination='. $alias .'" class="btn btn-sm btn-default">Edit</a>',
+        '#markup' => '<a href="/node/'. $node->id() . '/edit?destination='. $alias .'" class="btn btn-xs btn-default">Edit</a>',
         '#weight' => -10,
       );
     }
